@@ -14,22 +14,24 @@
  * }
  */
 class Solution {
-    public boolean isValidBST(TreeNode root) {
-        return check(root).bst;
-    }
-    public bstpair check(TreeNode root){
-        if(root==null) return new bstpair();
-        bstpair lbp=check(root.left);
-        bstpair rbp=check(root.right);
-        bstpair sbp=new bstpair();
-        sbp.max=Math.max(lbp.max, Math.max(rbp.max,root.val));
-        sbp.min=Math.min(lbp.min,Math.min(rbp.min,root.val));
-        sbp.bst= lbp.bst && rbp.bst && root.val>lbp.max && root.val<rbp.min;
-        return sbp;
-    }
     class bstpair{
-        long min=Long.MAX_VALUE;
-        long max=Long.MIN_VALUE;
-        boolean bst=true;
+            long min=Long.MAX_VALUE;
+            long max=Long.MIN_VALUE;
+            boolean isbst=true;
+        }
+
+    public boolean isValidBST(TreeNode root) {
+        return valid(root).isbst;
+
+    }
+    public bstpair valid(TreeNode root){
+        if(root==null) return new bstpair();
+        bstpair lbp=valid(root.left);
+        bstpair rbp=valid(root.right);
+        bstpair sbp=new bstpair();
+        sbp.min=Math.min(lbp.min,Math.min(rbp.min,root.val));
+        sbp.max=Math.max(rbp.max,Math.max(rbp.max,root.val));
+        sbp.isbst=lbp.isbst && rbp.isbst && (root.val>lbp.max && root.val<rbp.min);
+        return sbp;
     }
 }
